@@ -57,11 +57,11 @@
     "url": "git://github.com/wcandillon/swagger-js-codegen.git"
   },
   "scripts": {
-    "build-datahub": "./bin/swagger2js.js gen ./json/swagger-datahub.json -e /test/",
+    "build-datahub": "./bin/swagger2js.js gen ./json/swagger-platform.json",
     "build-portal": "./bin/swagger2js.js gen ./json/portal.json",
     "clean": "rm -rf tmp-*",
     "test": "grunt",
     "unittest": "jest"
   },
-  "version": "1.18.0"
+  "version": "1.18.1"
 }
