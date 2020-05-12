@@ -1,0 +1,66 @@
+/**
+* {{&summary}}
+* @method
+{{#externalDocs}}
+* @see {@link {{&url}}|{{#description}}{{&description}}{{/description}}{{^description}}External docs{{/description}}}
+{{/externalDocs}}
+* @name {{&className}}#{{&actionName}}
+{{#parameters}}
+    {{^isSingleton}} * @param {{=<% %>=}}{<%&type%>}<%={{ }}=%> {{&camelCaseName}} - {{&description}}{{/isSingleton}}
+{{/parameters}}
+*/
+async {{&actionName}}(parameters: {
+{{#parameters}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},
+{{/isSingleton}}{{/parameters}}
+    $queryParameters?: any,
+}): Promise< {{#responses}}{{#status200}}{{#tsType}}{{> type}}{{/tsType}}{{/status200}}{{/responses}} > {
+    let path = '{{&path}}';
+    let body: any;
+    let queryParameters: any = {};
+
+{{#parameters}}
+    {{#isQueryParameter}}
+        {{#isSingleton}}
+            queryParameters['{{&name}}'] = '{{&singleton}}';
+        {{/isSingleton}}
+        {{^isSingleton}}
+            {{#isPatternType}}
+                Object.keys(parameters).forEach(function(parameterName) {
+                    if(new RegExp('{{&pattern}}').test(parameterName)){
+                        queryParameters[parameterName] = parameters[parameterName];
+                    }
+                });
+            {{/isPatternType}}
+            {{^isPatternType}}
+                parameters['{{&camelCaseName}}'] !== undefined ? queryParameters['{{&name}}'] = parameters['{{&camelCaseName}}'] : '';
+                
+            {{/isPatternType}}
+        {{/isSingleton}}
+    {{/isQueryParameter}}
+
+    {{#isPathParameter}}
+        path = path.replace('{{=<% %>=}}{<%&name%>}<%={{ }}=%>', `${parameters['{{&camelCaseName}}']}`);
+    {{/isPathParameter}}
+
+    {{#isBodyParameter}}
+        if(parameters['{{&camelCaseName}}'] !== undefined) {
+            body = parameters['{{&camelCaseName}}'];
+        }
+    {{/isBodyParameter}}
+{{/parameters}}
+
+if(parameters.$queryParameters) {
+    Object.keys(parameters.$queryParameters).forEach(function(parameterName){
+        queryParameters[parameterName] = parameters.$queryParameters[parameterName];
+    });
+}
+
+    {{^isBodyParameter}}
+        {{#isPOST}}
+            queryParameters = {};
+        {{/isPOST}}
+    {{/isBodyParameter}}
+
+    const result: {{#responses}}{{#status200}}{{#tsType}}{{> type}}{{/tsType}}{{/status200}}{{/responses}} = await this.http.request({method:"{{method}}", url:path, params:queryParameters, payload:body } );
+    return result;
+}
