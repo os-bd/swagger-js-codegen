@@ -32,8 +32,9 @@ async {{&actionName}}(parameters: {
                 });
             {{/isPatternType}}
             {{^isPatternType}}
-                parameters['{{&camelCaseName}}'] !== undefined ? queryParameters['{{&name}}'] = parameters['{{&camelCaseName}}'] : '';
-                
+                if(parameters['{{&camelCaseName}}'] !== undefined) {
+                    queryParameters['{{&name}}'] = parameters['{{&camelCaseName}}']
+                }
             {{/isPatternType}}
         {{/isSingleton}}
     {{/isQueryParameter}}
