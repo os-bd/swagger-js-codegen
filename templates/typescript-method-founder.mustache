@@ -10,10 +10,13 @@
 {{/parameters}}
 */
 async {{&actionName}}(parameters: {
-{{#parameters}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},
-{{/isSingleton}}{{/parameters}}
+{{#parameters}}
+{{#isQueryParameter}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isSingleton}}{{/isQueryParameter}}
+{{#isPathParameter}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isPathParameter}}
+{{#isBodyParameter}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isBodyParameter}}
+{{/parameters}}
     $queryParameters?: any,
-}): Promise< {{#responses}}{{#status200}}{{#tsType}}{{> type}}{{/tsType}}{{/status200}}{{/responses}} > {
+} = {}): Promise< {{#responses}}{{#status200}}{{#tsType}}{{> type}}{{/tsType}}{{/status200}}{{/responses}} > {
     let path = '{{&path}}';
     let body: any;
     let queryParameters: any = {};
@@ -50,7 +53,7 @@ async {{&actionName}}(parameters: {
     {{/isBodyParameter}}
 {{/parameters}}
 
-if(parameters !== undefined && parameters.$queryParameters) {
+if(parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach(function(parameterName){
         queryParameters[parameterName] = parameters.$queryParameters[parameterName];
     });
