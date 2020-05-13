@@ -50,7 +50,7 @@ async {{&actionName}}(parameters: {
     {{/isBodyParameter}}
 {{/parameters}}
 
-if(parameters.$queryParameters) {
+if(parameters !== undefined && parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach(function(parameterName){
         queryParameters[parameterName] = parameters.$queryParameters[parameterName];
     });
