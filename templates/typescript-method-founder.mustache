@@ -11,11 +11,8 @@
 */
 public async {{&actionName}}(parameters: {
 {{#parameters}}
-{{#isQueryParameter}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isSingleton}}{{/isQueryParameter}}
-{{#isPathParameter}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isPathParameter}}
-{{#isBodyParameter}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isBodyParameter}}
+{{#isQueryParameter}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isSingleton}}{{/isQueryParameter}}{{#isPathParameter}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isPathParameter}}{{#isBodyParameter}}requestPayload{{&cardinality}}: {{> type}},{{/isBodyParameter}}
 {{/parameters}}
-    $queryParameters?: any,
 }): Promise< {{#responses}}{{#status200}}{{#tsType}}{{> type}}{{/tsType}}{{/status200}}{{/responses}} > {
     let path = '{{&path}}';
     let body: any;
@@ -47,17 +44,11 @@ public async {{&actionName}}(parameters: {
     {{/isPathParameter}}
 
     {{#isBodyParameter}}
-        if(parameters['{{&camelCaseName}}'] !== undefined) {
-            body = parameters['{{&camelCaseName}}'];
+        if(parameters['requestPayload'] !== undefined) {
+            body = parameters['requestPayload'];
         }
     {{/isBodyParameter}}
 {{/parameters}}
-
-if(parameters !== undefined && parameters.$queryParameters) {
-    Object.keys(parameters.$queryParameters).forEach(function(parameterName){
-        queryParameters[parameterName] = parameters.$queryParameters[parameterName];
-    });
-}
 
     {{^isBodyParameter}}
         {{#isPOST}}
