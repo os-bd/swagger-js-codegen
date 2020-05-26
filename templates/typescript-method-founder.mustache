@@ -9,10 +9,26 @@
     {{^isSingleton}} * @param {{=<% %>=}}{<%&type%>}<%={{ }}=%> {{&camelCaseName}} - {{&description}}{{/isSingleton}}
 {{/parameters}}
 */
-public async {{&actionName}}(parameters: {
+public async {{&actionName}}(params: {
+payload?:
+{{#hasPostParams}}
 {{#parameters}}
-{{#isQueryParameter}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isSingleton}}{{/isQueryParameter}}{{#isPathParameter}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isPathParameter}}{{#isBodyParameter}}requestPayload{{&cardinality}}: {{> type}},{{/isBodyParameter}}
+{{#isBodyParameter}}{{> type}}{{/isBodyParameter}}
+{{/parameters}},
+{{/hasPostParams}}
+{{^hasPostParams}}
+{},
+{{/hasPostParams}}
+query?: {
+{{#parameters}}
+{{#isQueryParameter}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isSingleton}}{{/isQueryParameter}}
 {{/parameters}}
+},
+path?: {
+{{#parameters}}
+{{#isPathParameter}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isPathParameter}}
+{{/parameters}}
+}
 }): Promise< {{#responses}}{{#status200}}{{#tsType}}{{> type}}{{/tsType}}{{/status200}}{{/responses}} > {
     let path = '{{&path}}';
     let body: any;
@@ -25,27 +41,27 @@ public async {{&actionName}}(parameters: {
         {{/isSingleton}}
         {{^isSingleton}}
             {{#isPatternType}}
-                Object.keys(parameters).forEach(function(parameterName) {
+                Object.keys(params.query).forEach(function(parameterName) {
                     if(new RegExp('{{&pattern}}').test(parameterName)){
-                        queryParameters[parameterName] = parameters[parameterName];
+                        queryParameters[parameterName] = params.query[parameterName];
                     }
                 });
             {{/isPatternType}}
             {{^isPatternType}}
-                if(parameters['{{&camelCaseName}}'] !== undefined) {
-                    queryParameters['{{&name}}'] = parameters['{{&camelCaseName}}']
+                if(params.query['{{&camelCaseName}}'] !== undefined) {
+                    queryParameters['{{&name}}'] = params.query['{{&camelCaseName}}']
                 }
             {{/isPatternType}}
         {{/isSingleton}}
     {{/isQueryParameter}}
 
     {{#isPathParameter}}
-        path = path.replace('{{=<% %>=}}{<%&name%>}<%={{ }}=%>', `${parameters['{{&camelCaseName}}']}`);
+        path = path.replace('{{=<% %>=}}{<%&name%>}<%={{ }}=%>', `${params.path['{{&camelCaseName}}']}`);
     {{/isPathParameter}}
 
     {{#isBodyParameter}}
-        if(parameters['requestPayload'] !== undefined) {
-            body = parameters['requestPayload'];
+        if(params.payload !== undefined) {
+            body = params.payload;
         }
     {{/isBodyParameter}}
 {{/parameters}}
