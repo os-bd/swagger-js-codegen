@@ -48,7 +48,7 @@ path?: {
                 });
             {{/isPatternType}}
             {{^isPatternType}}
-                if(params.query['{{&camelCaseName}}'] !== undefined) {
+                if(params.query !== undefined && params.query['{{&camelCaseName}}'] !== undefined) {
                     queryParameters['{{&name}}'] = params.query['{{&camelCaseName}}']
                 }
             {{/isPatternType}}
@@ -56,7 +56,9 @@ path?: {
     {{/isQueryParameter}}
 
     {{#isPathParameter}}
-        path = path.replace('{{=<% %>=}}{<%&name%>}<%={{ }}=%>', `${params.path['{{&camelCaseName}}']}`);
+        if (params.path !== undefined) {
+            path = path.replace('{{=<% %>=}}{<%&name%>}<%={{ }}=%>', `${params.path['{{&camelCaseName}}']}`);
+        }
     {{/isPathParameter}}
 
     {{#isBodyParameter}}
