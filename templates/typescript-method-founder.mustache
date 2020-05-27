@@ -21,7 +21,7 @@ payload?:
 {{/hasPostParams}}
 query?: {
 {{#parameters}}
-{{#isQueryParameter}}{{^isSingleton}}'{{&camelCaseName}}'{{&cardinality}}: {{> type}},{{/isSingleton}}{{/isQueryParameter}}
+{{#isQueryParameter}}{{^isSingleton}}'{{&camelCaseName}}'?: {{> type}},{{/isSingleton}}{{/isQueryParameter}}
 {{/parameters}}
 },
 path?: {
