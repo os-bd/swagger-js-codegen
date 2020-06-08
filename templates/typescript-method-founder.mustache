@@ -68,12 +68,6 @@ path?: {
     {{/isBodyParameter}}
 {{/parameters}}
 
-    {{^isBodyParameter}}
-        {{#isPOST}}
-            queryParameters = {};
-        {{/isPOST}}
-    {{/isBodyParameter}}
-
     const result: {{#responses}}{{#status200}}{{#tsType}}{{> type}}{{/tsType}}{{/status200}}{{/responses}} = await this.http.request({method:"{{method}}", url:path, params:queryParameters, payload:body } );
     return result;
 }
