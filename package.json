@@ -16,11 +16,11 @@
     "js-beautify": "^1.5.1",
     "js-yaml": "^3.10.0",
     "jshint": "^2.5.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.19",
     "mustache": "2.2.1",
     "randexp": "^0.5.3",
     "swagger-parser": "8.0.0",
-    "update-notifier": "^2.1.0"
+    "update-notifier": "^4.1.0"
   },
   "description": "A Swagger codegen for JavaScript",
   "devDependencies": {
@@ -35,12 +35,12 @@
     "grunt-jsonlint": "^1.0.4",
     "grunt-vows": "^0.4.1",
     "jest": "^24.9.0",
-    "matchdep": "^1.0.1 ",
+    "matchdep": "^2.0.0",
     "q": "^1.0.1",
     "request": "^2.87.0",
     "superagent": "^3.3.1",
     "tmp": "0.0.31",
-    "ts-jest": "^24.1.0",
+    "ts-jest": "^26.1.4",
     "typescript": "^2.9.2",
     "vows": "^0.8.2"
   },
@@ -63,5 +63,5 @@
     "test": "grunt",
     "unittest": "jest"
   },
-  "version": "1.20.10"
+  "version": "1.21.0"
 }

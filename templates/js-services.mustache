@@ -1,0 +1,11 @@
+export default class {
+  constructor(fetcher, basePath) {
+    this.fetcher = fetcher;
+    this.base = basePath;
+  }
+
+{{#methods}}
+    {{> method}}
+
+{{/methods}}
+}
