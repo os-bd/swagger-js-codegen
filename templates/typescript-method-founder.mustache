@@ -30,9 +30,10 @@ path?: {
 {{/parameters}}
 }
 }): Promise< {{#responses}}{{#status200}}{{#tsType}}{{> type}}{{/tsType}}{{/status200}}{{/responses}} > {
-    let path = '{{&path}}';
+    let path = '';
+    path = '{{&path}}';
     let body: any;
-    let queryParameters: any = {};
+    const queryParameters: any = {};
 
 {{#parameters}}
     {{#isQueryParameter}}
