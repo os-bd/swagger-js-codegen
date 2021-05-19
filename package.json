@@ -51,7 +51,7 @@
   ],
   "license": "Apache-2.0",
   "main": "./lib/codegen.js",
-  "name": "swagger-js-codegen-purvar",
+  "name": "swagger-js-codegen-byteluck",
   "repository": {
     "type": "git",
     "url": "git://github.com/wcandillon/swagger-js-codegen.git"
@@ -63,5 +63,5 @@
     "test": "grunt",
     "unittest": "jest"
   },
-  "version": "1.21.1"
+  "version": "2.0.0"
 }
